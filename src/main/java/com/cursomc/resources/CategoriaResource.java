@@ -22,7 +22,6 @@ public class CategoriaResource {
 			@PathVariable Integer id) {
 		
 	    Categoria obj = service.buscar(id);
-	    
 		return ResponseEntity.ok().body(obj);
 	}
 
