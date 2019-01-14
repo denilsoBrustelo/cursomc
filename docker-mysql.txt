@@ -1,0 +1,37 @@
+
+
+#Running as an arbitrary user
+$ mkdir data
+$ docker run -v "$PWD/data":/var/lib/mysql --user 1000:1000 -p 3306:3306 --name curso-spring-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
+
+
+# Creating database dumps
+$ docker exec curso-spring-mysql sh -c 'exec mysqldump --all-databases -uroot -p"$my-secret-pw"' > $PWD/data/dump/all-databases.sql
+
+
+
+-p 3306:3306
+
+
+mysql:
+  build: docker-build-contexts/mysql
+  ports:
+    - 3306
+  environment:
+    - MYSQL_DATABASE=mydatabase
+    - MYSQL_ROOT_PASSWORD=mypassword
+
+
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+
